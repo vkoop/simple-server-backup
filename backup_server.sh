@@ -2,23 +2,17 @@
 
 source $1
 
-if [ ! -d $BASEBACKUPFOLDER/$SERVERNAME ]
-then
-mkdir $BASEBACKUPFOLDER/$SERVERNAME
-fi
-
 DATAFOLDER=$BASEBACKUPFOLDER/$SERVERNAME/DATA
 
 if [ ! -d $DATAFOLDER ]
 then
-mkdir $DATAFOLDER
+mkdir -p $DATAFOLDER
 fi
 
 #Todays date in ISO-8601 format:
 DAY0=`date "+%Y-%m-%d"`
 
-#Yesterdays date in ISO-8601 format:
-DAY1=`date "+%Y-%m-%d" -d "1 day ago"`
+DAY1=`ls $DATAFOLDER | sort -r | head -n 1`
 
 #The source directory:
 SRC="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
