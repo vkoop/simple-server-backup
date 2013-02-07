@@ -10,20 +10,21 @@ mkdir -p $DATAFOLDER
 fi
 
 #Todays date in ISO-8601 format:
-DAY0=`date "+%Y-%m-%d"`
+TODAY=`date "+%Y-%m-%d"`
 
-DAY1=`ls $DATAFOLDER | sort -r | head -n 1`
+#Search for last backup - sort reverse by date
+LASTBACKUP=`ls $DATAFOLDER | sort -r | head -n 1`
 
 #The source directory:
 SRC="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
 
 #The target directory:
-TRG="$DATAFOLDER/$DAY0"
+TRG="$DATAFOLDER/$TODAY"
 
 SSHOPT="ssh -i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22"
 
 #The link destination directory:
-LNK="$DATAFOLDER/$DAY1"
+LNK="$DATAFOLDER/$LASTBACKUP"
 
 #The rsync options:
 if [ -d $LNK ]
