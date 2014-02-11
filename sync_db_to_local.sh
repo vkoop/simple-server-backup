@@ -2,11 +2,12 @@
 
 source $1
 
-#Create user TODO: use mysql password , only if set
-#TODO: perhapse check before creating user
-echo "CREATE USER '${DB_USERNAME}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}'; 
+# Create DB
+# Create user
+# Grant privileges
+echo " 
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';
+GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
 FLUSH PRIVILEGES;
 " | mysql -u $LOCAL_DB_ROOT -p$LOCAL_DB_PASSWORD 
 
