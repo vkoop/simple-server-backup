@@ -12,10 +12,10 @@ TRG="${SSHUSERNAME}@${SERVERNAME}:${REMOTETRG}"
 SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DATA/$RESTORE_DAY/"
 
 
-SSHOPT="ssh -i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22"
+SSHOPT="-i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22"
 
 #The rsync options:
 OPT="-avh --delete -e "
 
 #Execute the backup
-rsync $OPT "$SSHOPT" $SRC $TRG
+rsync $OPT "ssh $SSHOPT" $SRC $TRG
