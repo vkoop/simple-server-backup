@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source $1 
+RESTORE_DAY=$2
+
+SSHOPT="-i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22 ${SERVERNAME}"
+
+SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DB/$RESTORE_DAY.sql"
+
+cat $SRC | ssh $SSHOPT "mysql --host=127.0.0.1 -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}"
