@@ -28,6 +28,6 @@ for i in $( ls $DBFOLDER/ ); do
 
 	if [ $FILEDATE  -lt $DAY29 ]
 	then
-		rm $i
+		rm "${DBFOLDER}/$i"
 	fi
 done;

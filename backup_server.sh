@@ -48,6 +48,6 @@ for i in $( ls $DATAFOLDER/ ); do
 
 	if [ $FILEDATE  -lt $DAY29 ]
 	then
-		rm -R $i
+		rm -R "$DATAFOLDER/$i"
 	fi
 done;
