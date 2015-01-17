@@ -21,7 +21,7 @@ SRC="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
 #The target directory:
 TRG="$DATAFOLDER/$TODAY"
 
-SSHOPT="ssh -i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22"
+SSHOPT="-e ssh -i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22"
 
 #The link destination directory:
 LNK="$DATAFOLDER/$LASTBACKUP"
@@ -29,10 +29,19 @@ LNK="$DATAFOLDER/$LASTBACKUP"
 #The rsync options:
 if [ -d $LNK ]
 then
-OPT="-avh --delete --link-dest=$LNK -e "
+OPT="-avh --delete --link-dest=$LNK"
 else
-OPT='-avh --delete --stats -e '
+OPT='-avh --delete --stats'
 fi
+
+if [ $EXCLUDES ]
+then
+	for EX in "${EXCLUDES[@]}"; do
+		OPT="$OPT --exclude $EX"
+	done
+fi
+
+echo "$OPT"
 
 #Execute the backup
 rsync $OPT "$SSHOPT" $SRC $TRG
