@@ -41,8 +41,6 @@ then
 	done
 fi
 
-echo "$OPT"
-
 #Execute the backup
 rsync $OPT "$SSHOPT" $SRC $TRG
 
