@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source $1
+source "functions.sh"
 
 #Website Backup Script
 RESTORE_DAY=$2
@@ -10,9 +11,6 @@ TRG="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
 
 #The target directory:
 SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DATA/$RESTORE_DAY/"
-
-
-SSHOPT="-i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22"
 
 #The rsync options:
 OPT="-avh --delete -e "

@@ -6,7 +6,7 @@ DATAFOLDER=$BASEBACKUPFOLDER/$SERVERNAME/DATA
 
 if [ ! -d $DATAFOLDER ]
 then
-mkdir -p $DATAFOLDER
+	mkdir -p $DATAFOLDER
 fi
 
 #Todays date in ISO-8601 format:
@@ -29,9 +29,9 @@ LNK="$DATAFOLDER/$LASTBACKUP"
 #The rsync options:
 if [ -d $LNK ]
 then
-OPT="-avh --delete --link-dest=$LNK"
+	OPT="-avh --delete --link-dest=$LNK"
 else
-OPT='-avh --delete --stats'
+	OPT='-avh --delete --stats'
 fi
 
 if [ $EXCLUDES ]

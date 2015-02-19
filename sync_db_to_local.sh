@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source $1
+source "functions.sh"
 
 # Create DB
 # Create user
@@ -11,5 +12,4 @@ GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USERNAME}'@'localhost' IDENTIFIED 
 FLUSH PRIVILEGES;
 " | mysql -u $LOCAL_DB_ROOT -p$LOCAL_DB_PASSWORD 
 
-SSHOPT="-i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22 ${SERVERNAME}"
 ssh $SSHOPT "mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}" | mysql -u${DB_USERNAME} -p${DB_PASSWORD} $DB_NAME
