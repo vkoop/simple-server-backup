@@ -11,10 +11,10 @@ then
 fi
 
 #Todays date in ISO-8601 format:
-TODAY=`date "+%Y-%m-%d"`
+TODAY=$(date "+%Y-%m-%d")
 
 #Search for last backup - sort reverse by date
-LASTBACKUP=`ls $DATAFOLDER | sort -r | head -n 1`
+LASTBACKUP=$(ls $DATAFOLDER | sort -r | head -n 1)
 
 #The source directory:
 SRC="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
@@ -44,10 +44,10 @@ fi
 #Execute the backup
 rsync $OPT -e "$RSNYCSHELL" $SRC $TRG
 
-DAY29=`date -d "29 days ago" "+%s"`
+DAY29=$(date -d "29 days ago" "+%s")
 
 for i in $( ls $DATAFOLDER/ ); do
-	FILENAME="`basename ${i}`"
+	FILENAME="$(basename ${i})"
 	FILENAME="${FILENAME%.*}"
 	FILEDATE=$(date --date $FILENAME '+%s')
 
