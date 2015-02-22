@@ -6,7 +6,7 @@ DBFOLDER="$BASEBACKUPFOLDER/$SERVERNAME/DB"
 
 if [ ! -d $DBFOLDER ]
 then
-	mkdir $DBFOLDER
+	mkdir -p $DBFOLDER
 fi
 
 #Todays date in ISO-8601 format:
