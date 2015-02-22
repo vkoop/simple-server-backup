@@ -1,9 +1,11 @@
 #!/bin/bash
 
 source $1
+source "functions.sh"
+
 TARGET=$LOCAL_DATA_TARGET
 
-SSHOPT="-e ssh -i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22"
+RSNYCSHELL="-e ssh '${SSHOPT}'"
 
 SRC="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
 OPT="-avh --delete --progress"
@@ -15,4 +17,4 @@ then
 	done
 fi
 
-rsync $OPT "$SSHOPT" $SRC $TARGET
+rsync $OPT "$RSNYCSHELL" $SRC $TARGET

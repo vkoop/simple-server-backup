@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source $1
+source "functions.sh"
 
 DATAFOLDER=$BASEBACKUPFOLDER/$SERVERNAME/DATA
 
@@ -21,7 +22,7 @@ SRC="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
 #The target directory:
 TRG="$DATAFOLDER/$TODAY"
 
-SSHOPT="-e ssh -i ${SSHPASSFILE} -l ${SSHUSERNAME} -p 22"
+RSNYCSHELL="-e ssh '${SSHOPT}'"
 
 #The link destination directory:
 LNK="$DATAFOLDER/$LASTBACKUP"
@@ -42,11 +43,9 @@ then
 fi
 
 #Execute the backup
-rsync $OPT "$SSHOPT" $SRC $TRG
-
+rsync $OPT "${RSNYCSHELL}" $SRC $TRG
 
 DAY29=`date -d "29 days ago" "+%s"`
-
 
 for i in $( ls $DATAFOLDER/ ); do
 	FILENAME="`basename ${i}`"
