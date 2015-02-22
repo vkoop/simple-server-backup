@@ -17,7 +17,7 @@ then
 	touch $DBFOLDER/$DAY0.sql
 fi
 
-ssh $SSHOPT "mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}" | cat - > $DBFOLDER/$DAY0.sql
+ssh $SSHOPT $SERVERNAME "mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}" | cat - > $DBFOLDER/$DAY0.sql
 
 #29 days ago in ISO-8601 format
 DAY29=` date -d "29 days ago" +%s`

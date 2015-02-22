@@ -13,7 +13,7 @@ TRG="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
 SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DATA/$RESTORE_DAY/"
 
 #The rsync options:
-OPT="-avh --delete -e "
+OPT="-avh --delete"
 
 #Execute the backup
-rsync $OPT "ssh $SSHOPT" $SRC $TRG
+rsync $OPT -e "ssh $SSHOPT" $SRC $TRG

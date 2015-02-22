@@ -5,7 +5,7 @@ source "functions.sh"
 
 TARGET=$LOCAL_DATA_TARGET
 
-RSNYCSHELL="-e ssh '${SSHOPT}'"
+RSNYCSHELL="ssh ${SSHOPT}"
 
 SRC="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
 OPT="-avh --delete --progress"
@@ -17,4 +17,4 @@ then
 	done
 fi
 
-rsync $OPT "$RSNYCSHELL" $SRC $TARGET
+rsync $OPT -e "$RSNYCSHELL" $SRC $TARGET

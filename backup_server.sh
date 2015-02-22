@@ -22,17 +22,16 @@ SRC="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
 #The target directory:
 TRG="$DATAFOLDER/$TODAY"
 
-RSNYCSHELL="-e ssh '${SSHOPT}'"
+RSNYCSHELL="ssh $SSHOPT"
 
 #The link destination directory:
 LNK="$DATAFOLDER/$LASTBACKUP"
 
+OPT="-avh --delete --stats"
 #The rsync options:
 if [ -d $LNK ]
 then
-	OPT="-avh --delete --link-dest=$LNK"
-else
-	OPT='-avh --delete --stats'
+	OPT="$OPT --link-dest=$LNK"
 fi
 
 if [ $EXCLUDES ]
@@ -43,7 +42,7 @@ then
 fi
 
 #Execute the backup
-rsync $OPT "${RSNYCSHELL}" $SRC $TRG
+rsync $OPT -e "$RSNYCSHELL" $SRC $TRG
 
 DAY29=`date -d "29 days ago" "+%s"`
 
