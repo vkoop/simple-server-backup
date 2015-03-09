@@ -7,7 +7,7 @@ source "functions.sh"
 RESTORE_DAY=$2
 
 #The source directory:
-TRG="${SSHUSERNAME}@${SERVERNAME}:${REMOTESRC}"
+TRG="${SSHUSERNAME}@${SERVERHOST}:${REMOTESRC}"
 
 #The target directory:
 SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DATA/$RESTORE_DAY/"
