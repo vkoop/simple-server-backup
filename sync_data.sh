@@ -1,12 +1,16 @@
 #!/bin/bash
 
 OPTIND=1
-optspec=":h-:"
+optspec=":h-:d:"
 while getopts "$optspec" optchar; do
 	case "${optchar}" in
 		h )
 			echo 'help...'
 			exit 0
+			;;
+		d )
+			echo 'selected'
+        		DATE=$OPTARG
 			;;
 		- )
 			case "${OPTARG}" in
@@ -18,6 +22,10 @@ while getopts "$optspec" optchar; do
 					echo 'Sync server to local.';
 					DIRECTION='stol';
 					;;		
+			        btos)
+					echo 'Restore from backup.';
+					DIRECTION='btos';
+					;;
 				*)
 					echo "Unknown option";
 					exit 0
@@ -36,9 +44,12 @@ source "functions.sh"
 if [[ $DIRECTION == 'ltos' ]]; then
 	SRC=$LOCAL_DATA_TARGET
 	TARGET="${SSHUSERNAME}@${SERVERHOST}:${REMOTESRC}"
-else
+elif [[ $DIRECTION == 'stol' ]]; then
 	SRC="${SSHUSERNAME}@${SERVERHOST}:${REMOTESRC}"
 	TARGET=$LOCAL_DATA_TARGET
+else
+	SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DATA/$DATE/"
+	TARGET="${SSHUSERNAME}@${SERVERHOST}:${REMOTESRC}"
 fi
 
 
