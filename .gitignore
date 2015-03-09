@@ -3,3 +3,4 @@ DB
 *.config
 .AppleDouble
 *.de
+*.swo
