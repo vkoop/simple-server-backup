@@ -27,10 +27,12 @@ RSNYCSHELL="ssh $SSHOPT"
 #The link destination directory:
 LNK="$DATAFOLDER/$LASTBACKUP"
 
-OPT="-avh --delete --stats"
+OPT="-avh --delete --stats --progress"
 #The rsync options:
 if [ -d $LNK ]
 then
+	echo 'found existing backup'
+	echo "will use link-directory: $LNK"
 	OPT="$OPT --link-dest=$LNK"
 fi
 
