@@ -54,7 +54,7 @@ elif [[ $DIRECTION == 'btos' ]]; then
 	cat $SRC | ssh $SSHOPT $SERVERHOST $SQLCOMMAND
 else
 	#statements
-	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]}" | eval "${DUMPCOMMAND[@]}"
+	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]}" | eval "${IMPORTCOMMAND[@]}"
 fi
 
 #echo " 
