@@ -46,15 +46,15 @@ DUMPCOMMAND=(mysqldump -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME)
 IMPORTCOMMAND=(mysql -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME --host=127.0.0.1)
 
 if [[ $DIRECTION == 'ltos' ]]; then
-	eval "${DUMPCOMMAND[@]}" | ssh $SSHOPT $SERVERHOST "${IMPORTCOMMAND[@]}"
+	eval "${DUMPCOMMAND[@]}" | gzip | ssh $SSHOPT $SERVERHOST "gunzip | ${IMPORTCOMMAND[@]}"
 elif [[ $DIRECTION == 'btos' ]]; then
 	SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DB/$RESTORE_DAY.sql"
 	SQLCOMMAND="mysql --host=127.0.0.1 -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}"
 
-	cat $SRC | ssh $SSHOPT $SERVERHOST $SQLCOMMAND
+	cat $SRC | gzip | ssh $SSHOPT $SERVERHOST "gunzip | $SQLCOMMAND"
 else
 	#statements
-	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]}" | eval "${IMPORTCOMMAND[@]}"
+	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]} | gzip"  | gunzip | eval "${IMPORTCOMMAND[@]}"
 fi
 
 #echo " 
