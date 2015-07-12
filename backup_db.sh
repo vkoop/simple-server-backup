@@ -23,13 +23,13 @@ ssh $SSHOPT $SERVERHOST "mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}
 DAY29=$(date -d "29 days ago" +%s)
 
 #Delete the backup from 29 days ago, if it exists
-for i in $( ls $DBFOLDER/ ); do
-	FILENAME="$(basename ${i})"
-	FILENAME="${FILENAME%.*}"
-	FILEDATE=$(date --date $FILENAME '+%s')
+#for i in $( ls $DBFOLDER/ ); do
+	#FILENAME="$(basename ${i})"
+	#FILENAME="${FILENAME%.*}"
+	#FILEDATE=$(date --date $FILENAME '+%s')
 
-	if [ $FILEDATE  -lt $DAY29 ]
-	then
-		rm "${DBFOLDER}/$i"
-	fi
-done;
+	#if [ $FILEDATE  -lt $DAY29 ]
+	#then
+		#rm "${DBFOLDER}/$i"
+	#fi
+#done;

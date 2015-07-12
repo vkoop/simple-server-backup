@@ -21,8 +21,8 @@ while getopts "$optspec" optchar; do
 				stol)
 					echo 'Sync server to local.';
 					DIRECTION='stol';
-					;;		
-			        btos)
+					;;
+			  btos)
 					echo 'Restore from backup.';
 					DIRECTION='btos';
 					;;

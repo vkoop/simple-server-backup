@@ -48,13 +48,13 @@ rsync $OPT -e "$RSNYCSHELL" $SRC $TRG
 
 DAY29=$(date -d "29 days ago" "+%s")
 
-for i in $( ls $DATAFOLDER/ ); do
-	FILENAME="$(basename ${i})"
-	FILENAME="${FILENAME%.*}"
-	FILEDATE=$(date --date $FILENAME '+%s')
+#for i in $( ls $DATAFOLDER/ ); do
+	#FILENAME="$(basename ${i})"
+	#FILENAME="${FILENAME%.*}"
+	#FILEDATE=$(date --date $FILENAME '+%s')
 
-	if [ $FILEDATE  -lt $DAY29 ]
-	then
-		rm -R "$DATAFOLDER/$i"
-	fi
-done;
+	#if [ $FILEDATE  -lt $DAY29 ]
+	#then
+		#rm -R "$DATAFOLDER/$i"
+	#fi
+#done;
