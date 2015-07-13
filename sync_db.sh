@@ -9,7 +9,6 @@ while getopts "$optspec" optchar; do
 			exit 0
 			;;
 		d)
-			echo 'selected'
         		RESTORE_DAY=$OPTARG
 			;;
 		- )
@@ -24,7 +23,7 @@ while getopts "$optspec" optchar; do
 					;;		
 				btos)
 					echo 'Restore DB from backup.';
-					DIRECTION='btol';
+					DIRECTION='btos';
 					;;
 				*)
 					echo "Unknown option";
@@ -47,14 +46,14 @@ IMPORTCOMMAND=(mysql -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME --host=127.0.0.1)
 
 if [[ $DIRECTION == 'ltos' ]]; then
 	eval "${DUMPCOMMAND[@]}" | gzip | ssh $SSHOPT $SERVERHOST "gunzip | ${IMPORTCOMMAND[@]}"
-elif [[ $DIRECTION == 'btos' ]]; then
+elif [[ $DIRECTION == 'stol' ]]; then
+	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]} | gzip"  | gunzip | eval "${IMPORTCOMMAND[@]}"
+else
+	#statements
 	SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DB/$RESTORE_DAY.sql"
 	SQLCOMMAND="mysql --host=127.0.0.1 -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}"
 
-	cat $SRC | gzip | ssh $SSHOPT $SERVERHOST "gunzip | $SQLCOMMAND"
-else
-	#statements
-	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]} | gzip"  | gunzip | eval "${IMPORTCOMMAND[@]}"
+	echo "cat $SRC | gzip | ssh $SSHOPT $SERVERHOST 'gunzip | $SQLCOMMAND'"
 fi
 
 #echo " 

@@ -17,7 +17,7 @@ TODAY=$(date "+%Y-%m-%d")
 LASTBACKUP=$(ls $DATAFOLDER | sort -r | head -n 1)
 
 #The source directory:
-SRC="${SSHUSERNAME}@${SERVERHOST}:${REMOTESRC}"
+SRC="${SSHUSERNAME}@${SERVERHOST}:${REMOTESRC}/"
 
 #The target directory:
 TRG="$DATAFOLDER/$TODAY"
