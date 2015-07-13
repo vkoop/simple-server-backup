@@ -55,7 +55,7 @@ fi
 
 RSNYCSHELL="ssh ${SSHOPT}"
 
-OPT="-avh --delete --progress"
+OPT="-avh --delete --progress --numeric-ids"
 
 if [ $EXCLUDES ]
 then

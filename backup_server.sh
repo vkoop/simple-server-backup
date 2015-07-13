@@ -27,7 +27,7 @@ RSNYCSHELL="ssh $SSHOPT"
 #The link destination directory:
 LNK="$DATAFOLDER/$LASTBACKUP"
 
-OPT="-avh --delete --stats --progress"
+OPT="-avh --delete --stats --progress --numeric-ids"
 #The rsync options:
 if [ -d $LNK ]
 then
