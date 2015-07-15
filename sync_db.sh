@@ -53,7 +53,7 @@ else
 	SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DB/$RESTORE_DAY.sql"
 	SQLCOMMAND="mysql --host=127.0.0.1 -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}"
 
-	echo "cat $SRC | gzip | ssh $SSHOPT $SERVERHOST 'gunzip | $SQLCOMMAND'"
+	cat $SRC | gzip | ssh $SSHOPT $SERVERHOST "gunzip | $SQLCOMMAND"
 fi
 
 #echo " 
