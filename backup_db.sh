@@ -1,6 +1,8 @@
 #!/bin/bash
+BASEDIR=$(dirname $0)
+
 source $1
-source "functions.sh"
+source "$BASEDIR/functions.sh"
 
 DBFOLDER="$BASEBACKUPFOLDER/$SERVERNAME/DB"
 
