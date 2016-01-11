@@ -47,9 +47,13 @@ if [[ $DIRECTION == 'ltos' ]]; then
 elif [[ $DIRECTION == 'stol' ]]; then
 	SRC="${SSHUSERNAME}@${SERVERHOST}:${REMOTESRC}/"
 	TARGET=$LOCAL_DATA_TARGET
-else
+elif [[ $DIRECTION == 'btos' ]]; then
+	echo "Date : $DATE";
 	SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DATA/$DATE/"
 	TARGET="${SSHUSERNAME}@${SERVERHOST}:${REMOTESRC}"
+else
+	echo "unknown direction!"
+	exit 0;
 fi
 
 
