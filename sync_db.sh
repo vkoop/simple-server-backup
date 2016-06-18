@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 OPTIND=1
-optspec=":h-:d:"
+optspec=":h-:d:f:"
 while getopts "$optspec" optchar; do
 	case "${optchar}" in
 		h )
@@ -9,8 +9,12 @@ while getopts "$optspec" optchar; do
 			exit 0
 			;;
 		d)
-        		RESTORE_DAY=$OPTARG
+            RESTORE_DAY=$OPTARG
 			;;
+	    f )
+	        LOCAL_TARGET_FILE="$OPTARG"
+	        echo "$LOCAL_TARGET_FILE"
+	        ;;
 		- )
 			case "${OPTARG}" in
 				ltos)
@@ -20,7 +24,11 @@ while getopts "$optspec" optchar; do
 				stol)
 					echo 'Sync server to local.';
 					DIRECTION='stol';
-					;;		
+					;;
+			    stof)
+			        echo 'Server to local file:';
+			        DIRECTION='stof';
+			        ;;
 				btos)
 					echo 'Restore DB from backup.';
 					DIRECTION='btos';
@@ -48,7 +56,10 @@ if [[ $DIRECTION == 'ltos' ]]; then
 	eval "${DUMPCOMMAND[@]}" | gzip | ssh $SSHOPT $SERVERHOST "gunzip | ${IMPORTCOMMAND[@]}"
 elif [[ $DIRECTION == 'stol' ]]; then
 	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]} | gzip"  | gunzip | eval "${IMPORTCOMMAND[@]}"
-else
+elif [[ $DIRECTION == 'stof' ]]; then
+    touch  "$LOCAL_TARGET_FILE"
+	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]} | gzip"  | gunzip > "$LOCAL_TARGET_FILE"
+elif  [[ $DIRECTION == 'btos' ]]; then
 	#statements
 	SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DB/$RESTORE_DAY.sql"
 	SQLCOMMAND="mysql --host=127.0.0.1 -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}"
@@ -60,6 +71,4 @@ fi
 #CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 #GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USERNAME}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
 #FLUSH PRIVILEGES;
-#" | mysql -u $LOCAL_DB_ROOT -p$LOCAL_DB_PASSWORD 
-
-
+#" | mysql -u $LOCAL_DB_ROOT -p$LOCAL_DB_PASSWORD
