@@ -6,10 +6,7 @@ source "$BASEDIR/functions.sh"
 
 DBFOLDER="$BASEBACKUPFOLDER/$SERVERNAME/DB"
 
-if [ ! -d $DBFOLDER ]
-then
-	mkdir -p $DBFOLDER
-fi
+mkdir -p $DBFOLDER
 
 #Todays date in ISO-8601 format:
 DAY0=`date "+%Y-%m-%d"`
