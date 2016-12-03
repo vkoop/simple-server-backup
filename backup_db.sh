@@ -18,17 +18,24 @@ fi
 
 ssh $SSHOPT $SERVERHOST "mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}" | cat - > $DBFOLDER/$DAY0.sql
 
-#29 days ago in ISO-8601 format
-DAY29=$(date -d "29 days ago" +%s)
+CURRENT_MONTH=$(date -d 'now' +%m)
+CURRENT_YEAR=$(date -d 'now' +%Y)
 
 #Delete the backup from 29 days ago, if it exists
-#for i in $( ls $DBFOLDER/ ); do
-	#FILENAME="$(basename ${i})"
-	#FILENAME="${FILENAME%.*}"
-	#FILEDATE=$(date --date $FILENAME '+%s')
+for i in $( ls $DBFOLDER/ ); do
+	FILENAME="$(basename ${i})"
+	FILENAME="${FILENAME%.*}"
+	FILEDATE=$(date --date $FILENAME '+%s')
 
-	#if [ $FILEDATE  -lt $DAY29 ]
-	#then
-		#rm "${DBFOLDER}/$i"
-	#fi
-#done;
+	FILE_MONTH=$(date --date $FILENAME '+%m')
+	FILE_YEAR=$(date --date $FILENAME '+%Y')
+
+	if [ $FILE_MONTH -ne $CURRENT_MONTH ] || [ $FILE_YEAR -ne $CURRENT_YEAR ]
+	then
+		# only 
+		if [ $(date --date $FILENAME '+%d') -ne '01' ]
+		then
+			rm "${DBFOLDER}/$i"
+		fi
+	fi
+done;

@@ -47,15 +47,24 @@ fi
 #Execute the backup
 rsync $OPT -e "$RSNYCSHELL" $SRC $TRG
 
-DAY29=$(date -d "29 days ago" "+%s")
 
-#for i in $( ls $DATAFOLDER/ ); do
-	#FILENAME="$(basename ${i})"
-	#FILENAME="${FILENAME%.*}"
-	#FILEDATE=$(date --date $FILENAME '+%s')
+CURRENT_MONTH=$(date -d 'now' +%m)
+CURRENT_YEAR=$(date -d 'now' +%Y)
 
-	#if [ $FILEDATE  -lt $DAY29 ]
-	#then
-		#rm -R "$DATAFOLDER/$i"
-	#fi
-#done;
+#Delete the backup from 29 days ago, if it exists
+for i in $( ls $DATAFOLDER/ ); do
+	FILENAME="$(basename ${i})"
+	FILEDATE=$(date --date $FILENAME '+%s')
+
+	FILE_MONTH=$(date --date $FILENAME '+%m')
+	FILE_YEAR=$(date --date $FILENAME '+%Y')
+
+	if [ $FILE_MONTH -ne $CURRENT_MONTH ] || [ $FILE_YEAR -ne $CURRENT_YEAR ]
+	then
+		# only 
+		if [ $(date --date $FILENAME '+%d') -ne '01' ]
+		then
+			rm -R "${DATAFOLDER}/$i"
+		fi
+	fi
+done;
