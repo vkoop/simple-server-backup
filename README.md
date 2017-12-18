@@ -23,6 +23,22 @@ LOCAL_DATA_TARGET - local path that should be used when syncing server with loca
 
 ## Supported tasks
 
+### Setup
+
+Executes ssh-keyscan for configured servers and adds them to known_hosts.
+
+```bash
+setup_ssh.sh
+```
+
+### Backup all servers
+
+Looks through the config folder and starts the db and data backup for all configured servers.
+
+```bash
+backup_all_servers.sh
+```
+
 ### Backup data
 
 Backup server data with a given config
@@ -31,7 +47,23 @@ Backup server data with a given config
 backup_server.sh <PATH_TO_THE_CONFIG>
 ```
 
-### Restore data
+### Restore data to server from backup direcotry
+
+```bash
+sync_data <PATH_TO_CONFIG> -d <DATE_TO_BE_RESTORED> --btos
+```
+
+### Sync local data to server
+
+```bash
+sync_data <PATH_TO_CONFIG> --ltos
+```
+
+### Sync server data to local
+
+```bash
+sync_data <PATH_TO_CONFIG> --stol
+```
 
 ### Backup db
 
@@ -41,18 +73,21 @@ Backup db with a given config.
 backup_db.sh <PATH_TO_THE_CONFIG>
 ```
 
-### Restore db
-
-#### From backup directory
+### Restore db from backup directory
 
 ```bash
 sync_db <PATH_TO_CONFIG> -d <DATE_TO_BE_RESTORED> --btos
 ```
 
-### Backup all servers
 
-Looks through the config folder and starts the db and data backup for all configured servers.
+### Sync local db to server
 
 ```bash
-backup_all_servers.sh
+sync_db <PATH_TO_CONFIG> --ltos
+```
+
+### Sync server db to local
+
+```bash
+sync_db <PATH_TO_CONFIG> --stol
 ```
