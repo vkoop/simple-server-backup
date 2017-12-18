@@ -1,7 +1,9 @@
 # Simple backup
+
 Bash scripts to backup servers using rsync.
 
 ## Configuration
+
 ```
 BASEBACKUPFOLDER - path to the backup directory
 SSHPASSFILE - ssh key used for authentication
@@ -15,10 +17,14 @@ DB_NAME - db name
 EXCLUDES - path to exclude during rsync e.g.: 
 
 EXCLUDES=("logs" "system/tmp")
+
+LOCAL_DATA_TARGET - local path that should be used when syncing server with local data with sync_data
 ```
 
 ## Supported tasks
+
 ### Backup data
+
 Backup server data with a given config
 
 ```
@@ -28,6 +34,7 @@ backup_server.sh <PATH_TO_THE_CONFIG>
 ### Restore data
 
 ### Backup db
+
 Backup db with a given config.
 
 ```
@@ -37,6 +44,7 @@ backup_db.sh <PATH_TO_THE_CONFIG>
 ### Restore db
 
 ### Backup all servers
+
 Looks through the config folder and starts the db and data backup for all configured servers.
 
 ```
