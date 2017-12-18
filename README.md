@@ -2,6 +2,7 @@
 Bash scripts to backup servers using rsync.
 
 ## Configuration
+```
 BASEBACKUPFOLDER - path to the backup directory
 SSHPASSFILE - ssh key used for authentication
 SSHUSERNAME - ssh username
@@ -12,7 +13,7 @@ DB_USERNAME - db username
 DB_PASSWORD - db password
 DB_NAME - db name
 EXCLUDES - path to exclude during rsync e.g.: 
-```
+
 EXCLUDES=("logs" "system/tmp")
 ```
 
