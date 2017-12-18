@@ -27,7 +27,7 @@ LOCAL_DATA_TARGET - local path that should be used when syncing server with loca
 
 Backup server data with a given config
 
-```
+```bash
 backup_server.sh <PATH_TO_THE_CONFIG>
 ```
 
@@ -37,16 +37,22 @@ backup_server.sh <PATH_TO_THE_CONFIG>
 
 Backup db with a given config.
 
-```
+```bash
 backup_db.sh <PATH_TO_THE_CONFIG>
 ```
 
 ### Restore db
 
+#### From backup directory
+
+```bash
+sync_db <PATH_TO_CONFIG> -d <DATE_TO_BE_RESTORED> --btos
+```
+
 ### Backup all servers
 
 Looks through the config folder and starts the db and data backup for all configured servers.
 
-```
+```bash
 backup_all_servers.sh
 ```
