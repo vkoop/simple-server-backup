@@ -4,6 +4,11 @@ BASEDIR=$(dirname $0)
 source $1
 source "$BASEDIR/functions.sh"
 
+if [ -z "$DB_USERNAME" ] || [ -z "$DB_PASSWORD" ]; then
+	echo "DB username or passwort not set. Will abort the backup"
+	exit 1;
+fi
+
 DBFOLDER="$BASEBACKUPFOLDER/$SERVERNAME/DB"
 
 mkdir -p $DBFOLDER
