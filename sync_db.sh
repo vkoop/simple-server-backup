@@ -10,10 +10,24 @@ while getopts "$optspec" optchar; do
 			;;
 		d)
             RESTORE_DAY=$OPTARG
+
+			if [[ -z $RESTORE_DAY ]]; then
+				echo "missing argument"
+				exit 1;
+			fi
+
+			echo "Restore day: $RESTORE_DAY"
 			;;
 	    f )
+			echo "Output dump to file."
+
+			if [[ -z $OPTARG ]]; then
+				echo "missing argument"
+				exit 1;
+			fi
+
 	        LOCAL_TARGET_FILE="$OPTARG"
-	        echo "$LOCAL_TARGET_FILE"
+	        echo "Dumping to file: $LOCAL_TARGET_FILE"
 	        ;;
 		- )
 			case "${OPTARG}" in
@@ -48,7 +62,7 @@ shift "$((OPTIND-1))"
 source $1
 source "functions.sh"
 
-DUMPCOMMAND=(mysqldump -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME)
+DUMPCOMMAND=(mysqldump -h $DUMP_DB_HOST -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME)
 
 IMPORTCOMMAND=(mysql -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME --host=127.0.0.1)
 
