@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # T: turn off pseudo-tty to decrease cpu load on destination.
 # o Compression=no: Turn off SSH compression.

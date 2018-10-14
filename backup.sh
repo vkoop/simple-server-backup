@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 BASEDIR=$(dirname $0)
 
 source $BASEDIR/backup_db.sh $1
