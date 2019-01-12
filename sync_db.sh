@@ -62,21 +62,28 @@ shift "$((OPTIND-1))"
 source $1
 source "functions.sh"
 
-DUMPCOMMAND=(mysqldump -h $DUMP_DB_HOST -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME)
-
-IMPORTCOMMAND=(mysql -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME --host=127.0.0.1)
+LOCAL_DB_HOST_FB=${LOCAL_DB_HOST:-"127.0.0.1"} 
+SERVER_DB_HOST_FB=${SERVER_DB_HOST:-"127.0.0.1"}
 
 if [[ $DIRECTION == 'ltos' ]]; then
+	DUMPCOMMAND=(mysqldump -h ${LOCAL_DB_HOST_FB} -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME)
+	IMPORTCOMMAND=(mysql -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME --host=${SERVER_DB_HOST_FB})
+
 	eval "${DUMPCOMMAND[@]}" | gzip | ssh $SSHOPT $SERVERHOST "gunzip | ${IMPORTCOMMAND[@]}"
 elif [[ $DIRECTION == 'stol' ]]; then
+	DUMPCOMMAND=(mysqldump -h ${SERVER_DB_HOST_FB} -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME)
+	IMPORTCOMMAND=(mysql -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME --host=${LOCAL_DB_HOST_FB})
+
 	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]} | gzip"  | gunzip | eval "${IMPORTCOMMAND[@]}"
 elif [[ $DIRECTION == 'stof' ]]; then
+	DUMPCOMMAND=(mysqldump -h ${SERVER_DB_HOST_FB} -u $DB_USERNAME -p$DB_PASSWORD $DB_NAME)
+
     touch  "$LOCAL_TARGET_FILE"
 	ssh $SSHOPT $SERVERHOST "${DUMPCOMMAND[@]} | gzip"  | gunzip > "$LOCAL_TARGET_FILE"
 elif  [[ $DIRECTION == 'btos' ]]; then
 	#statements
 	SRC="${BASEBACKUPFOLDER}/${SERVERNAME}/DB/$RESTORE_DAY.sql"
-	SQLCOMMAND="mysql --host=127.0.0.1 -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}"
+	SQLCOMMAND="mysql --host=${SERVER_DB_HOST_FB} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}"
 
 	cat $SRC | gzip | ssh $SSHOPT $SERVERHOST "gunzip | $SQLCOMMAND"
 fi
