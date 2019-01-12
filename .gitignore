@@ -5,3 +5,4 @@ DB
 *.de
 *.swo
 config
+.idea
