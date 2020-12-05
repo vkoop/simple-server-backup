@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "Starting SSH setup"
+
 BASEDIR=$(dirname $0)
 
 for f in $BASEDIR/config/*.config.sh
@@ -16,3 +18,5 @@ do
 
   echo "----------------------------------";
 done
+
+echo "Finished SSH setup"
