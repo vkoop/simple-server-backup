@@ -4,17 +4,17 @@ echo "Starting SSH setup"
 
 BASEDIR=$(dirname $0)
 
-for f in $BASEDIR/config/*.config.sh
+for configFile in $BASEDIR/config/*.config.sh
 do
-  echo "Setup ssh server: ${f}";
-  source $f;
+  echo "Setup ssh server: ${configFile}";
+  source "$configFile";
 
-  if [ ! -f "~/.ssh/known_hosts" ]; then
-    mkdir -p ~/.ssh
-    touch ~/.ssh/known_hosts
+  if [ ! -f "$HOME/.ssh/known_hosts" ]; then
+    mkdir -p "$HOME/.ssh"
+    touch "$HOME/.ssh/known_hosts"
   fi
 
-  ssh-keyscan -H $SERVERHOST >> ~/.ssh/known_hosts
+  ssh-keyscan -H "$SERVERHOST" >> "$HOME/.ssh/known_hosts"
 
   echo "----------------------------------";
 done
