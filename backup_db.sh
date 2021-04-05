@@ -12,14 +12,14 @@ fi
 
 DBFOLDER="$BASEBACKUPFOLDER/$SERVERNAME/DB"
 
-mkdir -p $DBFOLDER
+mkdir -p "$DBFOLDER"
 
 #Todays date in ISO-8601 format:
 DAY0=$(date "+%Y-%m-%d")
 
-if [ ! -f $DBFOLDER/$DAY0.sql ]
+if [ ! -f "$DBFOLDER/$DAY0.sql" ]
 then
-	touch $DBFOLDER/$DAY0.sql
+	touch "$DBFOLDER/$DAY0.sql"
 fi
 
-ssh $SSHOPT $SERVERHOST "mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}" | cat - > $DBFOLDER/$DAY0.sql
+ssh $SSHOPT $SERVERHOST "mysqldump -u ${DB_USERNAME} -p${DB_PASSWORD} ${DB_NAME}" | cat - > "$DBFOLDER/$DAY0.sql"
