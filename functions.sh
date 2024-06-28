@@ -5,4 +5,10 @@
 # x: turn off X forwarding if it is on by default.
 
 SSHPORT="${SSHPORT:-22}"
-SSHOPT="-i ${SSHPASSFILE} -l ${SSHUSERNAME} -p ${SSHPORT} -T -o Compression=no -x"
+
+if [ -n "${SSHPASSFILE}" ]; then
+    SSHOPT="-i ${SSHPASSFILE} ${SSHOPT}"
+fi
+
+
+SSHOPT="-l ${SSHUSERNAME} -p ${SSHPORT} -T -o Compression=no -x"
