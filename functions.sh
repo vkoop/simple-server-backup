@@ -6,9 +6,11 @@
 
 SSHPORT="${SSHPORT:-22}"
 
+SSHOPT=""
+
 if [ -n "${SSHPASSFILE}" ]; then
-    SSHOPT="-i ${SSHPASSFILE} ${SSHOPT}"
+    SSHOPT="-i ${SSHPASSFILE}"
 fi
 
 
-SSHOPT="-l ${SSHUSERNAME} -p ${SSHPORT} -T -o Compression=no -x"
+SSHOPT="${SSHOPT} -l ${SSHUSERNAME} -p ${SSHPORT} -T -o Compression=no -x"
