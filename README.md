@@ -40,12 +40,12 @@ Bash scripts to simplify server backups and data synchronization using rsync and
 
 ## Configuration Details
 
-To configure the backup scripts for a server, you'll need to create a configuration file.
+To configure the backup scripts for a server:
 
-1. Start by copying the provided `config.example` file to a new name (e.g., `cp config.example config/my_server.conf`). It's good practice to store your server-specific configurations in a `config/` directory.
-2. Edit your newly created configuration file.
+1. Copy the provided `config.example` file to a new name (e.g., `cp config.example config/my_server.conf`).
+2. Edit your newly created configuration file, uncommenting and setting values for all required parameters.
 
-All available parameters are detailed with comments directly within the `config.example` file. This file serves as the primary reference for understanding each setting, its purpose, whether it's required or optional, and example values.
+All parameters are documented directly within the `config.example` file, which indicates whether each setting is required or optional and provides example values.
 
 ## Available Scripts and Operations
 
@@ -98,4 +98,4 @@ All scripts should be run from the directory where they are located. Ensure they
   * **Usage Examples:**
     * Restore DB to server: `./sync_db path/to/config.conf -d 2023-10-26 --btos`
     * Sync local DB to server: `./sync_db path/to/config.conf --ltos`
-    * Sync server DB to local: ./sync_db path/to/config.conf --stol
+    * Sync server DB to local: `./sync_db path/to/config.conf --stol`
