@@ -1,12 +1,52 @@
-BASEBACKUPFOLDER=""
-SERVERNAME=""
-SSHUSERNAME=""
-SSHPASSFILE=""
-REMOTESRC=""
+#!/bin/bash
+# Configuration for my_web_server
 
-DB_USERNAME=""
-DB_PASSWORD=""
-DB_NAME="" 
+# BASEBACKUPFOLDER: (Required) Path to the base directory where backups will be stored locally.
+BASEBACKUPFOLDER="/mnt/backups"
 
-LOCAL_DB_HOST="127.0.0.1"
-SERVER_DB_HOST="127.0.0.1"
+# SSH Connection Details
+# ----------------------
+# (Required) Path to the SSH private key file for authentication.
+# SSHPASSFILE="/home/user/.ssh/id_rsa_backup_key"
+
+# (Required) SSH username for the remote server.
+# SSHUSERNAME="webadmin"
+
+# (Required) IP address or hostname of the remote server.
+# SERVERHOST="your_server_ip_or_domain.com"
+
+# (Required) A unique name for the server. This is used for naming backup subdirectories.
+# SERVERNAME="my-web-server"
+
+# Remote Data Source (for data backup using rsync)
+# -------------------------------------------------
+# (Required for data backup) Path to the data directory on the remote server to be backed up.
+# REMOTESRC="/var/www/production_site/"
+
+# (Optional) An array of paths/patterns to exclude during rsync, relative to REMOTESRC.
+EXCLUDES=("wp-content/cache/" "tmp/" "*.log")
+
+# Database Details (Optional - for database backup)
+# -------------------------------------------------
+# If these are not set, database backup/sync for this server will be skipped.
+# (Optional) Database username.
+# DB_USERNAME="db_backup_user"
+
+# (Optional) Database password.
+# DB_PASSWORD="secure_password_here"
+
+# (Optional) Name of the database to back up.
+# DB_NAME="production_database"
+
+# Local Data Target (Optional - for sync_data --stol operation)
+# -------------------------------------------------------------
+# (Optional) Local path used when synchronizing server data to your local machine using 'sync_data --stol'.
+# LOCAL_DATA_TARGET="/home/user/dev/sites/my-web-server-data"
+
+# Database Host Configuration (Optional - for database sync operations if not localhost)
+# ------------------------------------------------------------------------------------
+# (Optional) Hostname or IP for the local database server. Defaults to 127.0.0.1 if not set.
+# LOCAL_DB_HOST="127.0.0.1"
+
+# (Optional) Hostname or IP for the remote database server. Defaults to 127.0.0.1 if not set.
+# SERVER_DB_HOST="127.0.0.1"

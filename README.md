@@ -1,93 +1,101 @@
-# Simple backup
+# Simple Backup
 
-Bash scripts to backup servers using rsync.
+Bash scripts to simplify server backups and data synchronization using rsync and database dump tools.
 
-## Configuration
+## Getting Started
 
-```
-BASEBACKUPFOLDER - path to the backup directory
-SSHPASSFILE - ssh key used for authentication
-SSHUSERNAME - ssh username
-SERVERHOST - ip/name of the server
-SERVERNAME - name that should be used for the server (used to name directories)
-REMOTESRC - data path on the server
-DB_USERNAME - db username
-DB_PASSWORD - db password
-DB_NAME - db name
-EXCLUDES - path to exclude during rsync e.g.: 
+1. **Create Configuration File(s):**
+   * Copy the `config.example` file to a new file for each server you want to back up (e.g., `cp config.example config/my_server.conf`).
+   * It's recommended to store these configuration files in a dedicated directory, for example, `config/`. The `backup_all_servers.sh` script typically looks for configurations in this `config/` subdirectory.
+   * Edit your new configuration file (e.g., `config/my_server.conf`) and populate it with the necessary parameters. Refer to the comments within `config.example` for details on each parameter.
 
-EXCLUDES=("logs" "system/tmp")
+2. **Setup SSH Access:**
+   * Ensure your SSH key (specified by `SSHPASSFILE` in the config) allows passwordless login to the remote server(s).
+   * Run the SSH setup script. This script usually iterates through servers defined in your configuration files (e.g., in the `config/` directory) and adds their host keys to `~/.ssh/known_hosts`.
 
-LOCAL_DATA_TARGET - local path that should be used when syncing server with local data with sync_data
-```
+     ```bash
+     ./setup_ssh.sh
+     ```
 
-## Supported tasks
+   * *Note: Ensure `setup_ssh.sh` has execution permissions (`chmod +x setup_ssh.sh`). This applies to all scripts.*
 
-### Setup
+3. **Perform Backups:**
+   * **Backup all configured servers (data and databases):**
 
-Executes ssh-keyscan for configured servers and adds them to known_hosts.
+     ```bash
+     ./backup_all_servers.sh
+     ```
 
-```bash
-setup_ssh.sh
-```
+   * **Backup a specific server's data:**
 
-### Backup all servers
+     ```bash
+     ./backup_server.sh path/to/your_server.conf
+     ```
 
-Looks through the config folder and starts the db and data backup for all configured servers.
+   * **Backup a specific server's database:**
 
-```bash
-backup_all_servers.sh
-```
+     ```bash
+     ./backup_db.sh path/to/your_server.conf
+     ```
 
-### Backup data
+## Configuration Details
 
-Backup server data with a given config
+To configure the backup scripts for a server, you'll need to create a configuration file.
 
-```bash
-backup_server.sh <PATH_TO_THE_CONFIG>
-```
+1. Start by copying the provided `config.example` file to a new name (e.g., `cp config.example config/my_server.conf`). It's good practice to store your server-specific configurations in a `config/` directory.
+2. Edit your newly created configuration file.
 
-### Restore data to server from backup direcotry
+All available parameters are detailed with comments directly within the `config.example` file. This file serves as the primary reference for understanding each setting, its purpose, whether it's required or optional, and example values.
 
-```bash
-sync_data <PATH_TO_CONFIG> -d <DATE_TO_BE_RESTORED> --btos
-```
+## Available Scripts and Operations
 
-### Sync local data to server
+All scripts should be run from the directory where they are located. Ensure they have execute permissions (e.g., `chmod +x *.sh`).
 
-```bash
-sync_data <PATH_TO_CONFIG> --ltos
-```
+### 1. Setup
 
-### Sync server data to local
+* **`setup_ssh.sh`**:
+  * Prepares SSH connections by adding host keys of configured servers to `~/.ssh/known_hosts`.
+  * It typically discovers servers from configuration files (e.g., in a `config/` directory).
+  * **Usage:** `./setup_ssh.sh`
 
-```bash
-sync_data <PATH_TO_CONFIG> --stol
-```
+### 2. Full Backup
 
-### Backup db
+* **`backup_all_servers.sh`**:
+  * Automates backups for all servers defined in configuration files (usually in a `config/` directory).
+  * For each server, it performs both data backup (like `backup_server.sh`) and database backup (if DB details are configured, like `backup_db.sh`).
+  * **Usage:** `./backup_all_servers.sh`
 
-Backup db with a given config.
+### 3. Data Operations
 
-```bash
-backup_db.sh <PATH_TO_THE_CONFIG>
-```
+* **`backup_server.sh <CONFIG_FILE>`**:
+  * Backs up data from the remote server specified in the `<CONFIG_FILE>` using rsync.
+  * **Usage:** `./backup_server.sh path/to/your_server.conf`
+* **`sync_data <CONFIG_FILE> [OPTIONS]`**:
+  * Synchronizes data between the backup storage, your local machine, and the remote server.
+  * **Options:**
+    * `-d <YYYY-MM-DD>`: Specifies the date of the backup to use for restoration.
+    * `--btos`: Restore **B**ackup **to** **S**erver.
+    * `--ltos`: Sync **L**ocal data **to** **S**erver.
+    * `--stol`: Sync **S**erver data **to** **L**ocal.
+  * **Usage Examples:**
+    * Restore data to server: `./sync_data path/to/config.conf -d 2023-10-26 --btos`
+    * Sync local data to server: `./sync_data path/to/config.conf --ltos`
+    * Sync server data to local: `./sync_data path/to/config.conf --stol`
 
-### Restore db from backup directory
+### 4. Database Operations
 
-```bash
-sync_db <PATH_TO_CONFIG> -d <DATE_TO_BE_RESTORED> --btos
-```
-
-
-### Sync local db to server
-
-```bash
-sync_db <PATH_TO_CONFIG> --ltos
-```
-
-### Sync server db to local
-
-```bash
-sync_db <PATH_TO_CONFIG> --stol
-```
+* **`backup_db.sh <CONFIG_FILE>`**:
+  * Backs up the database from the remote server specified in `<CONFIG_FILE>`.
+  * Requires `DB_USERNAME`, `DB_PASSWORD`, and `DB_NAME` to be set in the config.
+  * **Usage:** `./backup_db.sh path/to/your_server.conf`
+* **`sync_db <CONFIG_FILE> [OPTIONS]`**:
+  * Synchronizes a database between the backup storage, your local machine, and the remote server.
+  * **Options:** (Same as `sync_data`)
+    * `-d <YYYY-MM-DD>`
+    * `--btos`
+    * `--ltos`
+    * `--stol`
+  * **Usage Examples:**
+    * Restore DB to server: `./sync_db path/to/config.conf -d 2023-10-26 --btos`
+    * Sync local DB to server: `./sync_db path/to/config.conf --ltos`
+    * Sync server DB to local: ./sync_db path/to/config.conf --stol
