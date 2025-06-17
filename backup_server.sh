@@ -31,14 +31,14 @@ LNK="$DATAFOLDER/$LASTBACKUP"
 
 OPT="-avh --delete --stats --progress --numeric-ids"
 #The rsync options:
-if [ -d $LNK ]
+if [ -d "$LNK" ]
 then
 	echo 'found existing backup'
 	echo "will use link-directory: $LNK"
 	OPT="$OPT --link-dest=$LNK"
 fi
 
-if [ $EXCLUDES ]
+if [ "$EXCLUDES" ]
 then
 	for EX in "${EXCLUDES[@]}"; do
 		OPT="$OPT --exclude $EX"
@@ -46,4 +46,4 @@ then
 fi
 
 #Execute the backup
-rsync $OPT -e "$RSNYCSHELL" $SRC $TRG
+rsync $OPT -e "$RSNYCSHELL" "$SRC" "$TRG"
