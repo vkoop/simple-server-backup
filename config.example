@@ -1,11 +1,9 @@
 #!/bin/bash
 # Configuration for my_web_server
 
-# BASEBACKUPFOLDER: (Required) Path to the base directory where backups will be stored locally.
-BASEBACKUPFOLDER="/mnt/backups"
+# (Required) Path to the base directory where backups will be stored locally.
+# BASEBACKUPFOLDER="/mnt/backups"
 
-# SSH Connection Details
-# ----------------------
 # (Required) Path to the SSH private key file for authentication.
 # SSHPASSFILE="/home/user/.ssh/id_rsa_backup_key"
 
@@ -24,7 +22,7 @@ BASEBACKUPFOLDER="/mnt/backups"
 # REMOTESRC="/var/www/production_site/"
 
 # (Optional) An array of paths/patterns to exclude during rsync, relative to REMOTESRC.
-EXCLUDES=("wp-content/cache/" "tmp/" "*.log")
+# EXCLUDES=("wp-content/cache/" "tmp/" "*.log")
 
 # Database Details (Optional - for database backup)
 # -------------------------------------------------
