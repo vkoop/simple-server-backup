@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-BASEDIR=$(dirname $0)
+BASEDIR=$(dirname "$0")
 
-source $1
+source "$1"
 source "$BASEDIR/functions.sh"
 
 if [ -z "$DB_USERNAME" ] || [ -z "$DB_PASSWORD" ]; then
